@@ -1,0 +1,42 @@
+corpus:
+  name: devrag-corpus-2026
+  output_dir: data/processed
+  sources:
+    arxiv:
+      enabled: true
+      categories: ["cs.CL", "cs.LG", "cs.AI"]
+      lookback_months: 18
+      max_docs: 20000
+    framework_docs:
+      enabled: true
+      urls:
+        - https://huggingface.co/docs/transformers/index
+        - https://huggingface.co/docs/datasets/index
+        - https://pytorch.org/docs/stable/index.html
+        - https://python.langchain.com/docs/introduction/
+        - https://docs.llamaindex.ai/en/stable/
+        - https://docs.vllm.ai/en/latest/
+    blogs:
+      enabled: true
+      feeds:
+        - https://lilianweng.github.io/index.xml
+        - https://distill.pub/rss.xml
+        - https://sebastianraschka.com/blog/index.xml
+  chunking:
+    strategy: semantic
+    chunk_size: 512
+    overlap: 64
+  dedup:
+    enabled: true
+    threshold: 0.92
+
+embedding:
+  base_model: Qwen/Qwen3-Embedding-0.6B
+  lora_r: 16
+  lora_alpha: 32
+  lora_dropout: 0.05
+  batch_size: 32
+  epochs: 1
+  lr: 2e-4
+  warmup_ratio: 0.05
+  max_seq_length: 512

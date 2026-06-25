@@ -1,0 +1,31 @@
+eval:
+  retrieval:
+    dataset: data/processed/eval_qa.jsonl
+    metrics: [recall@1, recall@5, recall@10, mrr@10, ndcg@10]
+    ks: [1, 5, 10]
+  end_to_end:
+    enabled: true
+    dataset: data/processed/eval_qa.jsonl
+    metrics: [faithfulness, citation_precision, answer_relevance]
+    judge_backend: local_llm
+    judge_model: qwen3:8b
+    sample_size: 50
+  ablations:
+    - bm25_only
+    - dense_only
+    - hybrid
+    - hybrid_rerank
+    - hybrid_rerank_rewrite
+  output_dir: reports
+  charts_dir: docs-site/docs/assets/charts
+
+serving:
+  host: 0.0.0.0
+  port: 8000
+  cache:
+    backend: sqlite
+    path: data/cache/responses.sqlite
+    ttl_seconds: 3600
+  rate_limit:
+    enabled: true
+    per_minute: 60
